@@ -1,0 +1,18 @@
+# Dados brutos
+dev_data: Data/raw/dataset_kobe_dev.parquet
+prod_data: Data/raw/dataset_kobe_prod.parquet
+
+# Dados processados
+train_data: Data/processed/base_train.parquet
+test_data: Data/processed/base_test.parquet
+predictions_output: Data/processed/production_predictions.parquet
+
+# Modelos
+model_paths:
+  logistic: Code/Model/lr_model
+  decision_tree: Code/Model/dt_model
+
+# Relatórios
+reports:
+  drift_analysis: Docs/production_analysis.md
+  model_selection: Docs/model_selection.md 

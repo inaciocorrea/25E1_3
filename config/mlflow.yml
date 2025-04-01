@@ -1,0 +1,23 @@
+tracking_uri: mlruns
+experiment_name: Treinamento
+run_name: PreparacaoDados
+
+model_params:
+  dt:
+    max_depth: 5
+    min_samples_split: 5
+  lr:
+    max_iter: 1000
+    solver: lbfgs
+
+metrics:
+  - logistic_regression_log_loss
+  - logistic_regression_f1_score
+  - decision_tree_log_loss
+  - decision_tree_f1_score
+
+thresholds:
+  f1_score_min: 0.45
+  log_loss_max: 0.7
+  drift_threshold: 20
+  retraining_schedule: monthly 

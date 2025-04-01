@@ -1,0 +1,15 @@
+pycaret_setup:
+  target: shot_made_flag
+  train_size: 0.8
+  session_id: 42
+  silent: True
+  log_experiment: True
+  experiment_name: Treinamento
+
+logistic_regression:
+  solver: lbfgs
+  max_iter: 1000
+
+decision_tree:
+  max_depth: 5
+  min_samples_split: 5 
