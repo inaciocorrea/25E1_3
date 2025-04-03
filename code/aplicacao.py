@@ -2,14 +2,15 @@ import mlflow
 import pandas as pd
 from sklearn.metrics import log_loss, f1_score
 from nodes import analyze_data_drift
+from config import data_processed_path, data_raw_path
 
 def run_application_pipeline():
     """Pipeline de aplicação do modelo em produção"""
-    mlflow.set_tracking_uri("file:./mlruns")
+    mlflow.set_tracking_uri("http://127.0.0.1:5000")
     
     with mlflow.start_run(run_name="PipelineAplicacao"):
         # Carrega dados de produção
-        prod_data = pd.read_parquet("Data/raw/dataset_kobe_prod.parquet")
+        prod_data = pd.read_parquet(data_raw_path + "/dataset_kobe_prod.parquet")
         
         # Seleciona apenas as features necessárias
         selected_features = [
@@ -38,8 +39,8 @@ def run_application_pipeline():
         results_df['prediction_label'] = [1 if p > 0.5 else 0 for p in predictions]
         
         # Salva resultados
-        results_df.to_parquet("Data/processed/production_predictions.parquet")
-        mlflow.log_artifact("Data/processed/production_predictions.parquet")
+        results_df.to_parquet(data_processed_path + "/production_predictions.parquet")
+        mlflow.log_artifact(data_processed_path + "/production_predictions.parquet")
 
         # Calcula e registra métricas
         metrics = {
@@ -51,7 +52,7 @@ def run_application_pipeline():
             mlflow.log_metric(metric_name, value)
 
         # Carrega dados de treino para comparação
-        train_data = pd.read_parquet("Data/processed/data_filtered_train.parquet")
+        train_data = pd.read_parquet(data_processed_path + "/data_filtered_train.parquet")
         
         # Analisa drift
         drift_report = analyze_data_drift(train_data, results_df)  # Usando results_df aqui

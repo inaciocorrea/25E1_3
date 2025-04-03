@@ -4,6 +4,7 @@ import yaml
 import mlflow
 import os
 import pandas as pd
+from config import data_processed_path, data_raw_path
 
 def load_config():
     """Carrega as configurações do pipeline"""
@@ -18,10 +19,10 @@ def load_config():
 def create_directories():
     """Cria a estrutura de diretórios necessária"""
     directories = [
-        "Data/raw",
-        "Data/processed",
-        "Code/Model",
-        "Docs",
+        "data/raw",
+        "data/processed",
+        "code/model",
+        "docs",
         "mlruns"
     ]
     
@@ -122,13 +123,13 @@ def run_pipeline():
     create_directories()
     
     # Verifica se os arquivos de dados existem
-    if not os.path.exists("Data/raw/dataset_kobe_dev.parquet"):
+    if not os.path.exists(data_raw_path + "/dataset_kobe_dev.parquet"):
         raise FileNotFoundError(
             "Arquivo 'dataset_kobe_dev.parquet' não encontrado em 'Data/raw/'. "
             "Por favor, coloque os arquivos de dados no diretório correto."
         )
     
-    if not os.path.exists("Data/raw/dataset_kobe_prod.parquet"):
+    if not os.path.exists(data_raw_path + "/dataset_kobe_prod.parquet"):
         raise FileNotFoundError(
             "Arquivo 'dataset_kobe_prod.parquet' não encontrado em 'Data/raw/'. "
             "Por favor, coloque os arquivos de dados no diretório correto."
@@ -151,12 +152,12 @@ def run_pipeline():
         )
         
         # Salva datasets
-        train_df.to_parquet("Data/processed/data_filtered_train.parquet")
-        test_df.to_parquet("Data/processed/data_filtered_test.parquet")
+        train_df.to_parquet(data_processed_path + "/data_filtered_train.parquet")
+        test_df.to_parquet(data_processed_path + "/data_filtered_test.parquet")
         
         # Salva também o dataset completo se necessário
         full_df = pd.concat([train_df, test_df])
-        full_df.to_parquet("Data/processed/data_filtered.parquet")
+        full_df.to_parquet(data_processed_path + "/data_filtered.parquet")
         
         # Registra dimensões do dataset filtrado
         mlflow.log_params({
@@ -170,19 +171,23 @@ def run_pipeline():
         models = train_models(data_catalog['train_data'], data_catalog['model_paths'])
         
         # Registra o modelo no MLflow
+        print("Registrando modelo no MLflow...")
         mlflow.sklearn.log_model(
             models[0],  # modelo de regressão logística
             "logistic_regression",
             registered_model_name="logistic_regression"
         )
+        print("Modelo registrado com sucesso!")
         
         # Transiciona o modelo para produção
+        print("Transicionando modelo para produção...")
         client = mlflow.tracking.MlflowClient()
         client.transition_model_version_stage(
             name="logistic_regression",
             version=1,  # primeira versão
             stage="Production"
         )
+        print("Modelo transicionado para produção com sucesso!")
         
         # Avalia os modelos
         metrics, predictions = evaluate_models(models, data_catalog['test_data'])

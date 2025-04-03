@@ -4,6 +4,7 @@ from pycaret.classification import *
 from sklearn.metrics import log_loss, f1_score
 from sklearn.model_selection import train_test_split
 import mlflow
+from config import data_processed_path
 
 def prepare_data(dev_data_path, prod_data_path, test_size=0.2):
     """Prepara os dados para treinamento"""
@@ -41,8 +42,8 @@ def prepare_data(dev_data_path, prod_data_path, test_size=0.2):
         stratify=df['shot_made_flag']
     )
     
-    train_df.to_parquet("Data/processed/base_train.parquet")
-    test_df.to_parquet("Data/processed/base_test.parquet")
+    train_df.to_parquet(data_processed_path + "/base_train.parquet")
+    test_df.to_parquet(data_processed_path + "/base_test.parquet")
     
     # Registra dimensões finais
     final_dims = {
