@@ -1,4 +1,5 @@
 .DS_Store
-.mlruns
-.mlartifacts
+mlruns/
+mlflow-artifacts/
+mlartifacts/
 logs.log
