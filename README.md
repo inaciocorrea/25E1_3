@@ -178,5 +178,13 @@ graph TD
 - PyCaret: Desenvolvimento dos modelos
 - Scikit-learn: Preprocessamento e avaliação
 - Streamlit: Interface de usuário
-- FastAPI: API REST
 
+## Como executar o projeto
+
+Criei o projeto utilizando Anaconda e Python 3.9 (`conda create -n kobe_env python=3.9`)
+
+```bash
+conda activate kobe_env
+pip install -r requirements.txt
+make all
+```
