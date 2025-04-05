@@ -6,6 +6,18 @@ Este projeto segue a estrutura do Team Data Science Process (TDSP) da Microsoft 
 1. Regressão Linear - Para prever a probabilidade de acerto
 2. Classificação - Para prever se o arremesso será convertido ou não
 
+## Documentação do Projeto
+
+A documentação completa do projeto está organizada na pasta `docs/` e inclui:
+
+- [Project Charter](docs/ProjectCharter.md) - Visão geral do projeto, objetivos e escopo
+- [Data Report](docs/DataReport.md) - Análise detalhada dos dados e suas características
+- [Model Report](docs/ModelReport.md) - Documentação dos modelos desenvolvidos e suas performances
+- [Data Split Strategy](docs/DataSplitStrategy.md) - Estratégia de divisão dos dados para treino e teste
+- [Model Selection](docs/model_selection.md) - Critérios e processo de seleção do modelo final
+- [Production Analysis](docs/production_analysis.md) - Análise de performance em produção
+- [Retraining Strategy](docs/retraining_strategy.md) - Estratégia de retreinamento do modelo
+
 ## Diagrama do Pipeline
 
 ```mermaid
