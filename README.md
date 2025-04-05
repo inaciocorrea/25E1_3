@@ -200,3 +200,12 @@ conda activate kobe_env
 pip install -r requirements.txt
 make all
 ```
+
+Caso queria executar passo-a-passo, execute os comandos abaixo na ordem descrita
+
+```bash
+make mlflow
+make pipeline
+make application
+make streamlit
+```
